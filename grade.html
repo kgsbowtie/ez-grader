@@ -6,11 +6,10 @@
 <title>Grading</title>
 
 <style>
-body {
-  font: -apple-system-body;
+html {
+  font-family: ui-sans-serif;
 }
 h1 {
-  font: -apple-system-headline;
   font-size: 2rem;
 }
 p {
@@ -31,17 +30,24 @@ p {
 .inputs {
   display: grid;
   grid-template-columns: max-content 0.8fr max-content;
+  grid-gap: 5px;
 }
 .inputs > label {
   grid-column: 1;
   justify-self: end;
 }
+.inputs > span {
+  grid-column: 3
+}
 .inputs > .new-grade-btn {
-  grid-column: 1 / 4
+  grid-column: 3
+}
+#output, input[type='number'] {
+  font-family: ui-monospace;
 }
 
 .new-grade-btn {
-  width: 100%;
+  
 }
 
 
@@ -66,17 +72,18 @@ p {
   <hr />
   <div class="inputs">
     <label for="total">Total:</label>
-    <input type="number" inputmode="decimal" name="total" id="total" value="" placeholder="Assignment Total"/>
-    <!-- <span>
+    <input type="number" inputmode="decimal"
+      name="total" id="total" placeholder="Assignment Total" 
+      value="" min="0" required="true" autofocus="true"
+      />
+    <span>
     <input type="checkbox" name="lock" value="" id="lock"/>
     <label for="lock">Lock</label>
-    </span> -->
-    <br />
+    </span>
     <label for="points">Points off:</label>
-    <input type="number" inputmode="decimal" name="points" id="points" value="" placeholder="Points off"/>
-    <br />
+    <input type="number" inputmode="decimal" name="points" id="points" min="0" required="true" value="" placeholder="Points off"/>
+    <button class="new-grade-btn" id="new-grade-btn">New Grade</button>
   </div>
-  <!-- <button class="new-grade-btn">New Grade</button> -->
 </body>
 <script>
   function getValuesAsDOM() {
@@ -133,7 +140,10 @@ p {
     return Math.round(raw)
   }
   
-  function onInput(e) {
+  function onInput(event) {
+    displayOutput()
+  }
+  function displayOutput() {
     let raw = `${rawGrade().toFixed(5)}%`
     let fraction = fractionGrade()
     let final = `${finalGrade()}%`
@@ -142,15 +152,39 @@ p {
     document.getElementById("fraction-grade").innerText = fraction
     document.getElementById("raw-grade").innerText = raw
   }
+  function lockTotalBox(event) {
+    let checkboxChecked = this.checked
+    let totalBox = document.getElementById("total")
+    if (checkboxChecked) {
+      totalBox.disabled = true
+    }
+    else {
+      totalBox.disabled = false
+    }
+  }
+  function selectText(event) {
+    const input = document.getElementById('points');
+    input.focus();
+    input.select();
+  }
   
   (function setInputEventListeners(assignment) {
+    // Sets event listeners for textboxes (`inputs`)
     let { total, pointsOff } = assignment
-    //total.oninput = onInput
-    //points.oninput = onInput
     total.addEventListener('input', onInput, false)
     points.addEventListener('input', onInput, false)
     
+    // Sets event listener for checkbox
+    let lock = document.getElementById("lock")
+    lock.addEventListener('change', lockTotalBox, false)
+    
+    // Sets event listener for button
+    let button = document.getElementById("new-grade-btn")
+    button.addEventListener('click', selectText, false)
+    
   })(getValuesAsDOM())
+  
+  
   // function addInputEventListeners
   // document.addEventListener('keyup', (event) => { 
   //   let assignment = getValuesAsDOM()
