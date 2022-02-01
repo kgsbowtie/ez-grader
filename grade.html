@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Grading</title>
+
+<style>
+body {
+  font: -apple-system-body;
+}
+h1 {
+  font: -apple-system-headline;
+  font-size: 2rem;
+}
+p {
+  padding-bottom: 0;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#final-grade {
+  
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: max-content auto;
+  grid-gap: 1em;
+  
+}
+.inputs {
+  display: grid;
+  grid-template-columns: max-content 0.8fr max-content;
+}
+.inputs > label {
+  grid-column: 1;
+  justify-self: end;
+}
+.inputs > .new-grade-btn {
+  grid-column: 1 / 4
+}
+
+.new-grade-btn {
+  width: 100%;
+}
+
+
+</style>
+
+</head>
+
+<body>
+  <h1>Grading</h1>
+  <div class="grid-container">
+    <div class="labels">
+      <div>Final:</div>
+      <div>Fraction:</div>
+      <div>Raw:</div>
+    </div>
+    <div id="output">
+      <div id="final-grade"></div>
+      <div id="fraction-grade"></div>
+      <div id="raw-grade"></div>
+    </div>
+  </div>
+  <hr />
+  <div class="inputs">
+    <label for="total">Total:</label>
+    <input type="number" inputmode="decimal" name="total" id="total" value="" placeholder="Assignment Total"/>
+    <!-- <span>
+    <input type="checkbox" name="lock" value="" id="lock"/>
+    <label for="lock">Lock</label>
+    </span> -->
+    <br />
+    <label for="points">Points off:</label>
+    <input type="number" inputmode="decimal" name="points" id="points" value="" placeholder="Points off"/>
+    <br />
+  </div>
+  <!-- <button class="new-grade-btn">New Grade</button> -->
+</body>
+<script>
+  function getValuesAsDOM() {
+    let assignmentTotal = document.getElementById("total")
+    let pointsOff = document.getElementById("points")
+    
+    return {
+      total: assignmentTotal,
+      pointsOff: pointsOff
+    }
+  }
+  function getValues() {
+    let assignment = getValuesAsDOM()
+    let { total, pointsOff } = assignment
+    let totalValue = total.value
+    let pointsOffValue = pointsOff.value
+    //console.log(totalValue)
+    return {
+      total: totalValue,
+      pointsOff: pointsOffValue
+    }
+  }
+  function defaults({total,pointsOff}) {
+    total = typeof total === 'number' ? 1 : total
+    pointsOff = typeof pointsOff === 'number' ? 0 : pointsOff
+    return {
+      total: total,
+      pointsOff: pointsOff
+    }
+  }
+  function rawGrade() {
+    let assignment = getValues();
+    assignment = defaults(assignment)
+    let {total, pointsOff} = assignment
+    
+    let grade = (total - pointsOff) / total
+    grade = grade * 100 // convert % to 100 point score
+    console.log(grade)
+    return grade
+  }
+  function fractionGrade() {
+    let assignment = getValues();
+    assignment = defaults(assignment)
+    let {total, pointsOff} = assignment
+    let points = total - pointsOff
+    return `${points} / ${total}`
+  }
+  function finalGrade() {
+    // let assignment = {
+    //   total: total,
+    //   pointsOff: pointsOff
+    // }
+    let raw = rawGrade()
+    return Math.round(raw)
+  }
+  
+  function onInput(e) {
+    let raw = `${rawGrade().toFixed(5)}%`
+    let fraction = fractionGrade()
+    let final = `${finalGrade()}%`
+    
+    document.getElementById("final-grade").innerText = final
+    document.getElementById("fraction-grade").innerText = fraction
+    document.getElementById("raw-grade").innerText = raw
+  }
+  
+  (function setInputEventListeners(assignment) {
+    let { total, pointsOff } = assignment
+    //total.oninput = onInput
+    //points.oninput = onInput
+    total.addEventListener('input', onInput, false)
+    points.addEventListener('input', onInput, false)
+    
+  })(getValuesAsDOM())
+  // function addInputEventListeners
+  // document.addEventListener('keyup', (event) => { 
+  //   let assignment = getValuesAsDOM()
+  //   let { total: { value: totalValue }, pointsOff: { value: pointsOffValue } } = assignment
+  //   console.log(total)
+  // }, false)
+</script>
+</html>
