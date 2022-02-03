@@ -49,25 +49,26 @@ p {
 .grid-container {
   display: grid;
   grid-template-columns: max-content auto;
-  grid-gap: 1em;
-  
+  grid-template-rows: repeat(3,1fr);
+  grid-gap: 0 1em;
+  grid-auto-flow: column;
 }
 .inputs {
   display: grid;
   grid-template-columns: max-content 0.8fr max-content;
   grid-gap: 5px;
 }
-.inputs > label {
+.inputs > .grade-label {
   grid-column: 1;
   justify-self: end;
 }
-.inputs > span {
+.inputs > .grade-label {
   grid-column: 3
 }
 .inputs > .new-grade-btn {
   grid-column: 3
 }
-#output, input[type='number'] {
+output, input[type='number'] {
   font-family: ui-monospace;
 }
 
@@ -89,16 +90,12 @@ footer {
 <body>
   <h1>Grading</h1>
   <div class="grid-container">
-    <div class="labels">
-      <div class="final">Final:</div>
-      <div>Fraction:</div>
-      <div>Raw:</div>
-    </div>
-    <div id="output">
-      <div class="final" id="final-grade"></div>
-      <div id="fraction-grade"></div>
-      <div id="raw-grade"></div>
-    </div>
+    <div class="grade-label final">Final:</div>
+    <div class="grade-label">Fraction:</div>
+    <div class="grade-label">Raw:</div>
+    <output class="final" id="final-grade"></output>
+    <output id="fraction-grade"></output>
+    <output id="raw-grade"></output>
   </div>
   
   <div class="inputs">
