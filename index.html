@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- <meta http-equiv="refresh" content="1" /> -->
+  <meta name='viewport' content='initial-scale=1, viewport-fit=cover, maximum-scale=1.0, minimum-scale=1.0 ,user-scalable=no, minimal-ui'>
+  <title>Calificar</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <h1>Grading</h1>
+  <div>
+    <input type="number" inputmode="decimal"
+      name="excellent" id="excellent" placeholder="Excellente"
+      value="100" min="0" required="true" width="5ch" max="100"
+      />
+    <input type="number" inputmode="decimal"
+      name="very-good" id="very-good" placeholder="¡Muy bien!"
+      value="93" min="0" required="true" width="5ch" max="100"
+      />
+  </div>
+  <div class="grid-container">
+    <div class="grade-label final">Final:</div>
+    <div class="grade-label">Fraction:</div>
+    <div class="grade-label">Raw:</div>
+    <output class="final" id="final-grade"></output>
+    <output id="fraction-grade"></output>
+    <output id="raw-grade"></output>
+  </div>
+  
+  <div class="inputs">
+    <label for="total">Total:</label>
+    <input type="number" inputmode="decimal" name="total" 
+      id="total" placeholder="Assignment Total" autofocus="true" 
+      value="" min="0" required="true" max="99999" step="any"
+      />
+    <span>
+    <input type="checkbox" name="lock" value="" id="lock"/>
+    <label for="lock">Lock</label>
+    </span>
+    <label for="points">Points off:</label>
+    <input type="number" inputmode="decimal" name="points" 
+    id="points" placeholder="Points off" 
+    value="" min="0" required="true" max="99999" step="any"
+    />
+    <button class="new-grade-btn" id="new-grade-btn">New Grade</button>
+  </div>
+  <footer>Made with ❤️ by Kyle Sandars</footer>
+</body>
+<script src="default.js"></script>
+</html>

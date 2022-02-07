@@ -8,25 +8,27 @@
 }
 html {
   font-family: ui-sans-serif;
-  font-size: 1.2em;
+  font-size: 18px;
+  /*width: 100vw;*/
+  /*overflow-x: clip;*/
 }
 body {
   /*height: 100vh;*/
-  border: 1px solid #0aa;
+  /*border: 1px solid #0aa;*/
   /*overflow-x: hidden;*/
   /*overflow-y: hidden;*/
-  /*height: 100vh;*/
+  height: 100vh;
   height: -webkit-fill-available;
   display: grid;
-  grid-template-rows: min-content min-content min-content 1fr
+  grid-template-rows: min-content min-content min-content min-content 1fr;
   /*grid-auto-rows:  */
-  
+  overflow-x: clip;
   /*grid-template-columns: 1fr*/
   
 }
 h1 {
   font-size: 2rem;
-  margin-top: 0;
+  /*margin-top: 0;*/
 }
 p {
   padding-bottom: 0;
@@ -35,8 +37,10 @@ p {
   margin-bottom: 0;
 }
 .final {
-  font-size: 1.1rem;
-  padding-bottom: 5px;
+  font-size: 2rem;
+  font-weight: 900;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .grid-container {
   display: grid;
@@ -44,25 +48,50 @@ p {
   grid-template-rows: repeat(3,1fr);
   grid-gap: 0 1em;
   grid-auto-flow: column;
+  font-feature-settings: "tnum";
+  overflow-x: clip;
 }
 .inputs {
   display: grid;
-  grid-template-columns: max-content 0.8fr max-content;
-  grid-gap: 5px;
+  grid-template-columns: max-content fit-content max-content;
+  grid-gap: 5px 1vw;
+  align-items: center;
+}
+label {
+  /*background-color: aqua;*/
 }
 .inputs > .grade-label {
   grid-column: 1;
   justify-self: end;
 }
 .inputs > .grade-label {
-  grid-column: 3
+  grid-column: 3;
 }
 .inputs > .new-grade-btn {
-  grid-column: 3
+  grid-column: 3;
 }
 output, input[type='number'] {
-  font-family: ui-monospace;
+  /*font-family: ui-monospace;*/
 }
+/*output, output::after {
+  text-overflow: clip;
+  white-space: nowrap;
+}*/
+/*.inputs > input[type='number'] {
+  font-size: 18pt;
+  width: 5ch;
+  height: 5ch;
+}*/
+
+input[type='number']:invalid {
+  background-color: rgba(255, 0, 0, 0.25);
+  border: 2px solid red;
+}
+input[type='number']:placeholder-shown {
+  background-color: revert;
+  border: revert;
+}
+
 
 .new-grade-btn {
   
@@ -73,4 +102,57 @@ footer {
   align-self: end;
   justify-self: center;
   
+}
+
+@keyframes excellent {
+  from {
+    background-color: blue;
+    background-position: -100% 0%;
+  }
+  to {
+    background-color: green;
+    background-position: 0% 0%;
+  }
+}
+/* .final {
+  animation-name: excellent;
+  animation-duration: 4s;
+} */
+.excellent::after {
+  content: "¡Excellente!";
+}
+.excellent {
+  color: green;
+}
+.very-good::after {
+  content: "¡Muy bien!"
+}
+.very-good {
+  color: purple;
+}
+
+@keyframes spinAndSlideIn {
+  from {
+    transform: translateY(-0.5em) translateX(3em) rotate(600deg);
+  }
+  to {
+    transform: translateY(-0.5em) translateX(0) rotate(28deg);
+  }
+}
+
+@keyframes wiggle {
+  from { 
+    transform: translateY(-0.5em) rotate(28deg) 
+  }
+  to { 
+    transform: translateY(-0.5em) rotate(32deg);
+  }
+}
+
+.excellent::after, .very-good::after {
+  display: inline-block;
+  position: absolute;
+  right: max(8px,env(safe-area-inset-right));
+  transform: translateY(-0.5em) rotate(30deg);
+  animation: 0.5s ease-in-out 0.1s 1 normal forwards spinAndSlideIn, 0.25s ease-in-out 0.5s infinite alternate forwards wiggle;
 }
